@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摔倒检测警报系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script src="https://unpkg.com/mqtt@4.3.7/dist/mqtt.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E40AF',
+                        secondary: '#3B82F6',
+                        danger: '#EF4444',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        dark: '#1F2937',
+                        light: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .alert-pulse {
+                animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+            @keyframes pulse {
+                0%, 100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.7;
+                }
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-6 max-w-6xl">
+        <!-- 顶部导航 -->
+        <header class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <i class="fa fa-heartbeat text-primary text-3xl mr-3"></i>
+                    <h1 class="text-2xl font-bold text-gray-800">摔倒检测警报系统</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <span class="inline-block w-3 h-3 rounded-full bg-gray-400 mr-2" id="connection-indicator"></span>
+                        <span class="text-gray-600" id="connection-status">未连接</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="inline-block w-3 h-3 rounded-full bg-success mr-2" id="status-indicator"></span>
+                        <span class="text-gray-600 font-medium" id="system-status">正常</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 警报区域 -->
+        <div class="bg-success text-white rounded-lg p-6 mb-6 transition-all duration-300" id="alert-container">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-bold">系统状态正常</h2>
+                    <p class="text-sm opacity-90 mt-1" id="last-update">等待数据更新...</p>
+                </div>
+                <button class="bg-white text-primary px-4 py-2 rounded-md font-medium hidden" id="reset-alert">
+                    解除警报
+                </button>
+            </div>
+        </div>
+        
+        <!-- 图表区域 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <!-- 加速度图表 -->
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fa fa-tachometer text-secondary mr-2"></i>合加速度 (m/s²)
+                </h3>
+                <div class="h-64">
+                    <canvas id="accel-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- 角度图表 -->
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fa fa-balance-scale text-secondary mr-2"></i>倾斜角度 (°)
+                </h3>
+                <div class="h-64">
+                    <canvas id="angle-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- 竖直加速度图表 -->
+            <div class="bg-white rounded-lg shadow-md p-4 md:col-span-2">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fa fa-arrow-up text-secondary mr-2"></i>竖直加速度 (m/s²)
+                </h3>
+                <div class="h-64">
+                    <canvas id="vertical-accel-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 日志区域 -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                <i class="fa fa-history text-secondary mr-2"></i>系统日志
+            </h3>
+            <div class="h-48 overflow-y-auto bg-gray-50 p-3 rounded-md text-sm" id="log-container">
+                <p class="text-gray-500">系统启动中...</p>
+            </div>
+        </div>
+        
+        <!-- 底部信息 -->
+        <footer class="text-center text-gray-500 text-sm">
+            <p>摔倒检测警报接收器 &copy; 2023</p>
+        </footer>
+    </div>
+    
+    <!-- 全屏警报弹窗 -->
+    <div class="fixed inset-0 bg-danger bg-opacity-90 flex items-center justify-center z-50 hidden" id="fullscreen-alert">
+        <div class="text-center p-6">
+            <i class="fa fa-exclamation-triangle text-white text-6xl mb-6"></i>
+            <h2 class="text-3xl font-bold text-white mb-4">检测到摔倒事件！</h2>
+            <p class="text-xl text-white mb-8">请立即查看情况</p>
+            <button class="bg-white text-danger px-6 py-3 rounded-md text-lg font-bold" id="acknowledge-alert">
+                确认收到
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // MQTT配置
+        const mqttConfig = {
+            broker: 'wss://test.mosquitto.org:8081', // WebSocket端口
+            clientId: 'fall_alert_web_' + Math.random().toString(16).substring(2, 8),
+            topics: {
+                alert: 'esp32/fall/alert',
+                accel: 'esp32/fall/accel',
+                angle: 'esp32/fall/angle',
+                vertical_accel: 'esp32/fall/vertical_accel',
+                status: 'esp32/fall/status'
+            }
+        };
+        
+        // 数据存储
+        const data = {
+            accel: [],
+            angle: [],
+            verticalAccel: [],
+            timestamps: [],
+            maxPoints: 50 // 最多显示50个数据点
+        };
+        
+        // 图表对象
+        let charts = {};
+        
+        // DOM元素
+        const elements = {
+            connectionIndicator: document.getElementById('connection-indicator'),
+            connectionStatus: document.getElementById('connection-status'),
+            statusIndicator: document.getElementById('status-indicator'),
+            systemStatus: document.getElementById('system-status'),
+            alertContainer: document.getElementById('alert-container'),
+            resetAlert: document.getElementById('reset-alert'),
+            lastUpdate: document.getElementById('last-update'),
+            logContainer: document.getElementById('log-container'),
+            fullscreenAlert: document.getElementById('fullscreen-alert'),
+            acknowledgeAlert: document.getElementById('acknowledge-alert')
+        };
+        
+        // 初始化图表
+        function initCharts() {
+            // 加速度图表
+            charts.accel = new Chart(document.getElementById('accel-chart'), {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '合加速度',
+                        data: [],
+                        borderColor: '#3B82F6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: getChartOptions('合加速度 (m/s²)')
+            });
+            
+            // 角度图表
+            charts.angle = new Chart(document.getElementById('angle-chart'), {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '倾斜角度',
+                        data: [],
+                        borderColor: '#EF4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }, {
+                        label: '阈值',
+                        data: [],
+                        borderColor: '#F59E0B',
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false
+                    }]
+                },
+                options: getChartOptions('倾斜角度 (°)')
+            });
+            
+            // 竖直加速度图表
+            charts.verticalAccel = new Chart(document.getElementById('vertical-accel-chart'), {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '竖直加速度',
+                        data: [],
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: getChartOptions('竖直加速度 (m/s²)')
+            });
+        }
+        
+        // 获取图表通用配置
+        function getChartOptions(title) {
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: '时间'
+                        },
+                        ticks: {
+                            maxTicksLimit: 5
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: title
+                        }
+                    }
+                },
+                animation: {
+                    duration: 0
+                }
+            };
+        }
+        
+        // 添加数据点
+        function addDataPoint(type, value) {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            
+            // 添加到数据数组
+            data[type].push(value);
+            data.timestamps.push(timeStr);
+            
+            // 限制数据点数量
+            if (data[type].length > data.maxPoints) {
+                data[type].shift();
+                data.timestamps.shift();
+            }
+            
+            // 更新对应图表
+            if (charts[type]) {
+                charts[type].data.labels = [...data.timestamps];
+                charts[type].data.datasets[0].data = [...data[type]];
+                
+                // 特殊处理角度图表的阈值线
+                if (type === 'angle') {
+                    charts.angle.data.datasets[1].data = data.angle.map(() => 60);
+                }
+                
+                charts[type].update();
+            }
+            
+            // 更新最后更新时间
+            elements.lastUpdate.textContent = `最后更新: ${timeStr}`;
+        }
+        
+        // 添加日志
+        function addLog(message) {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            const logEntry = document.createElement('p');
+            logEntry.className = 'mb-1 border-b border-gray-100 pb-1';
+            logEntry.innerHTML = `<span class="text-gray-500">${timeStr}</span> - ${message}`;
+            
+            elements.logContainer.appendChild(logEntry);
+            elements.logContainer.scrollTop = elements.logContainer.scrollHeight;
+        }
+        
+        // 连接MQTT服务器
+        function connectMqtt() {
+            addLog('正在连接到MQTT服务器...');
+            
+            // 连接服务器
+            const client = mqtt.connect(mqttConfig.broker, {
+                clientId: mqttConfig.clientId,
+                clean: true
+            });
+            
+            // 连接成功
+            client.on('connect', () => {
+                elements.connectionIndicator.className = 'inline-block w-3 h-3 rounded-full bg-success mr-2';
+                elements.connectionStatus.textContent = '已连接';
+                addLog('MQTT服务器连接成功');
+                
+                // 订阅所有主题
+                Object.values(mqttConfig.topics).forEach(topic => {
+                    client.subscribe(topic, (err) => {
+                        if (!err) {
+                            addLog(`已订阅主题: ${topic}`);
+                        } else {
+                            addLog(`订阅主题失败 ${topic}: ${err}`);
+                        }
+                    });
+                });
+            });
+            
+            // 接收消息
+            client.on('message', (topic, message) => {
+                const payload = message.toString();
+                const topicName = Object.keys(mqttConfig.topics).find(
+                    key => mqttConfig.topics[key] === topic
+                );
+                
+                addLog(`收到${topicName || '未知'}数据: ${payload}`);
+                
+                // 处理不同类型的消息
+                switch (topic) {
+                    case mqttConfig.topics.alert:
+                        handleAlert(payload);
+                        break;
+                    case mqttConfig.topics.accel:
+                        addDataPoint('accel', parseFloat(payload));
+                        break;
+                    case mqttConfig.topics.angle:
+                        addDataPoint('angle', parseFloat(payload));
+                        break;
+                    case mqttConfig.topics.vertical_accel:
+                        addDataPoint('verticalAccel', parseFloat(payload));
+                        break;
+                    case mqttConfig.topics.status:
+                        addLog(`设备状态: ${payload}`);
+                        break;
+                }
+            });
+            
+            // 连接断开
+            client.on('close', () => {
+                elements.connectionIndicator.className = 'inline-block w-3 h-3 rounded-full bg-warning mr-2';
+                elements.connectionStatus.textContent = '已断开';
+                addLog('MQTT连接已断开，尝试重连...');
+                
+                // 5秒后重连
+                setTimeout(connectMqtt, 5000);
+            });
+            
+            // 连接错误
+            client.on('error', (err) => {
+                elements.connectionIndicator.className = 'inline-block w-3 h-3 rounded-full bg-danger mr-2';
+                elements.connectionStatus.textContent = '连接错误';
+                addLog(`MQTT错误: ${err}`);
+            });
+            
+            // 保存客户端引用，用于发送消息
+            window.mqttClient = client;
+        }
+        
+        // 处理警报消息
+        function handleAlert(payload) {
+            if (payload === '1') {
+                // 触发警报
+                elements.systemStatus.textContent = '警报：检测到摔倒！';
+                elements.statusIndicator.className = 'inline-block w-3 h-3 rounded-full bg-danger mr-2';
+                elements.alertContainer.className = 'bg-danger text-white rounded-lg p-6 mb-6 transition-all duration-300 alert-pulse';
+                elements.alertContainer.querySelector('h2').textContent = '检测到摔倒事件！';
+                elements.resetAlert.classList.remove('hidden');
+                
+                // 显示全屏警报（在移动设备上更明显）
+                elements.fullscreenAlert.classList.remove('hidden');
+                
+                // 播放提示音
+                playAlertSound();
+            } else {
+                // 解除警报
+                elements.systemStatus.textContent = '正常';
+                elements.statusIndicator.className = 'inline-block w-3 h-3 rounded-full bg-success mr-2';
+                elements.alertContainer.className = 'bg-success text-white rounded-lg p-6 mb-6 transition-all duration-300';
+                elements.alertContainer.querySelector('h2').textContent = '系统状态正常';
+                elements.resetAlert.classList.add('hidden');
+                elements.fullscreenAlert.classList.add('hidden');
+            }
+        }
+        
+        // 播放警报提示音
+        function playAlertSound() {
+            try {
+                // 创建音频上下文
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // 频率
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); // 音量
+                
+                oscillator.start();
+                
+                // 1秒后停止
+                setTimeout(() => {
+                    oscillator.stop();
+                }, 1000);
+            } catch (e) {
+                console.log('无法播放提示音:', e);
+            }
+        }
+        
+        // 绑定事件处理
+        function bindEvents() {
+            // 解除警报按钮
+            elements.resetAlert.addEventListener('click', () => {
+                if (window.mqttClient && window.mqttClient.connected) {
+                    window.mqttClient.publish(mqttConfig.topics.alert, '0');
+                    addLog('已发送解除警报命令');
+                }
+            });
+            
+            // 确认警报按钮（全屏）
+            elements.acknowledgeAlert.addEventListener('click', () => {
+                if (window.mqttClient && window.mqttClient.connected) {
+                    window.mqttClient.publish(mqttConfig.topics.alert, '0');
+                    addLog('已发送解除警报命令');
+                }
+            });
+        }
+        
+        // 初始化应用
+        function init() {
+            initCharts();
+            bindEvents();
+            connectMqtt();
+        }
+        
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
+    
