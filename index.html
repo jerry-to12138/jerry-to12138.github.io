@@ -1,316 +1,2423 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>青松学 - 发现名校学子，成就锦绣未来</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-light: #dbeafe;
-            --bg: #f8fafc;
-            --text-main: #1e293b;
-            --text-sub: #64748b;
-            --card: #ffffff;
-            --accent: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智学云辅 - 专业在线辅导平台</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
 
-        * { box-sizing: border-box; transition: all 0.2s ease; font-family: 'Inter', 'PingFang SC', sans-serif; }
-        body { margin: 0; background: var(--bg); color: var(--text-main); line-height: 1.5; padding-bottom: 50px;}
-        .container { max-width: 1200px; margin: auto; padding: 0 20px; }
+  :root {
+    --primary: #2563EB;
+    --primary-light: #3B82F6;
+    --primary-pale: #EFF6FF;
+    --primary-deep: #1D4ED8;
+    --accent: #0EA5E9;
+    --accent-light: #E0F2FE;
+    --sky: #F0F9FF;
+    --white: #FFFFFF;
+    --gray-50: #F8FAFC;
+    --gray-100: #F1F5F9;
+    --gray-200: #E2E8F0;
+    --gray-300: #CBD5E1;
+    --gray-400: #94A3B8;
+    --gray-500: #64748B;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --gray-800: #1E293B;
+    --success: #10B981;
+    --success-light: #D1FAE5;
+    --warning: #F59E0B;
+    --warning-light: #FEF3C7;
+    --danger: #EF4444;
+    --danger-light: #FEE2E2;
+    --shadow-sm: 0 1px 3px rgba(37,99,235,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 4px 16px rgba(37,99,235,0.1), 0 2px 8px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 40px rgba(37,99,235,0.14), 0 4px 16px rgba(0,0,0,0.06);
+    --radius: 12px;
+    --radius-lg: 18px;
+  }
 
-        /* 导航栏 */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #e2e8f0; background: white; position: sticky; top: 0; z-index: 100;}
-        .logo { font-weight: 800; font-size: 24px; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 5px;}
-        .nav-links { display: flex; gap: 8px; }
-        .nav-links button { background: none; border: none; font-weight: 600; cursor: pointer; color: var(--text-sub); padding: 10px 18px; border-radius: 10px; }
-        .nav-links button.active { background: var(--primary); color: white; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* 首页 Portal 样式 */
-        .hero { padding: 80px 0; text-align: center; background: white; border-bottom: 1px solid #f1f5f9; margin-bottom: 40px; }
-        .hero h1 { font-size: 48px; margin: 0; color: #0f172a; }
-        .hero p { font-size: 18px; color: var(--text-sub); margin: 20px 0 40px; }
-        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
-        .feature-item { padding: 30px; background: #f8fafc; border-radius: 20px; }
-        .feature-item h3 { margin: 15px 0 10px; color: var(--primary); }
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-        /* 通用卡片与布局 */
-        .card { background: var(--card); border-radius: 20px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin-bottom: 25px; border: 1px solid #f1f5f9; }
-        .section-title { font-size: 20px; font-weight: 800; margin: 30px 0 20px; display: flex; align-items: center; justify-content: space-between; }
-        .title-left { display: flex; align-items: center; gap: 10px; }
-        .title-left i { width: 4px; height: 20px; background: var(--primary); border-radius: 2px; }
+  /* ===== LANDING PAGE ===== */
+  #landingPage {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #EFF6FF 0%, #E0F2FE 40%, #F0F9FF 100%);
+    display: flex;
+    flex-direction: column;
+  }
 
-        /* 表单与按钮 */
-        input { width: 100%; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; outline: none; background: #fcfdfe; margin-bottom: 10px; }
-        .btn { padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-outline { border: 1px solid #e2e8f0; background: white; color: var(--text-main); }
-        .btn-lg { padding: 15px 40px; font-size: 18px; }
+  .landing-header {
+    padding: 28px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-        .hidden { display: none; }
-        .badge { font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 600; background: #f1f5f9; }
-        .bg-success { background: #dcfce7; color: #166534; }
-        .bg-warning { background: #fef3c7; color: #92400e; }
-        .bg-blue { background: #e0f2fe; color: #0369a1; }
-        
-        /* 管理员侧边栏 */
-        .admin-layout { display: grid; grid-template-columns: 240px 1fr; gap: 30px; }
-        .admin-sidebar { background: #1e293b; color: white; padding: 20px; border-radius: 20px; }
-        .admin-menu-item { padding: 12px; border-radius: 10px; cursor: pointer; margin-bottom: 5px; opacity: 0.7; }
-        .admin-menu-item.active { background: var(--primary); opacity: 1; }
-    </style>
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.35);
+  }
+
+  .brand-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-deep);
+    letter-spacing: 2px;
+  }
+
+  .brand-tagline {
+    font-size: 11px;
+    color: var(--gray-400);
+    letter-spacing: 1px;
+  }
+
+  .landing-hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 40px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid var(--primary-light);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: 13px;
+    color: var(--primary);
+    font-weight: 500;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--gray-800);
+    line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+  }
+
+  .hero-title span {
+    color: var(--primary);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--gray-500);
+    max-width: 520px;
+    line-height: 1.8;
+    margin-bottom: 56px;
+  }
+
+  .portal-cards {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .portal-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 36px 32px;
+    width: 220px;
+    cursor: pointer;
+    transition: all 0.28s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: var(--shadow);
+    border: 2px solid transparent;
+    text-align: center;
+  }
+
+  .portal-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light);
+  }
+
+  .portal-card .portal-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 20px;
+  }
+
+  .portal-card.parent .portal-icon { background: linear-gradient(135deg, #EFF6FF, #DBEAFE); }
+  .portal-card.student .portal-icon { background: linear-gradient(135deg, #F0FDF4, #DCFCE7); }
+  .portal-card.admin .portal-icon { background: linear-gradient(135deg, #FFF7ED, #FED7AA); }
+
+  .portal-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 8px;
+  }
+
+  .portal-card p {
+    font-size: 13px;
+    color: var(--gray-400);
+    line-height: 1.6;
+  }
+
+  /* ===== MAIN LAYOUT ===== */
+  #appContainer { display: none; height: 100vh; flex-direction: column; }
+
+  .top-bar {
+    height: 60px;
+    background: white;
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 20px;
+    box-shadow: var(--shadow-sm);
+    z-index: 100;
+    flex-shrink: 0;
+  }
+
+  .top-brand {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-deep);
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .top-brand-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 15px;
+  }
+
+  .portal-label {
+    font-size: 12px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .portal-label.parent { background: var(--primary-pale); color: var(--primary); }
+  .portal-label.student { background: var(--success-light); color: var(--success); }
+  .portal-label.admin { background: var(--warning-light); color: var(--warning); }
+
+  .top-bar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .back-btn {
+    font-size: 13px;
+    color: var(--gray-500);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    border: 1px solid var(--gray-200);
+  }
+  .back-btn:hover { background: var(--gray-100); color: var(--primary); }
+
+  .main-layout { flex: 1; display: flex; overflow: hidden; }
+
+  .sidebar {
+    width: 220px;
+    background: white;
+    border-right: 1px solid var(--gray-200);
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+  }
+
+  .sidebar-section { margin-bottom: 4px; }
+  .sidebar-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-400);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 20px 4px;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--gray-600);
+    transition: all 0.18s;
+    border-left: 3px solid transparent;
+  }
+
+  .sidebar-item:hover { background: var(--gray-50); color: var(--primary); }
+  .sidebar-item.active { background: var(--primary-pale); color: var(--primary); border-left-color: var(--primary); font-weight: 600; }
+  .sidebar-item .si-icon { font-size: 16px; width: 20px; text-align: center; }
+
+  .content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px;
+    background: var(--gray-50);
+  }
+
+  /* ===== COMMON COMPONENTS ===== */
+  .page-header {
+    margin-bottom: 24px;
+  }
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 4px;
+  }
+  .page-desc { font-size: 14px; color: var(--gray-400); }
+
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gray-700);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+  }
+  .btn-primary:hover { background: linear-gradient(135deg, var(--primary-deep), var(--primary)); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
+
+  .btn-outline {
+    background: white;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+  }
+  .btn-outline:hover { background: var(--primary-pale); }
+
+  .btn-ghost {
+    background: var(--gray-100);
+    color: var(--gray-600);
+  }
+  .btn-ghost:hover { background: var(--gray-200); }
+
+  .btn-success {
+    background: linear-gradient(135deg, #059669, #10B981);
+    color: white;
+    box-shadow: 0 2px 8px rgba(16,185,129,0.3);
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #DC2626, #EF4444);
+    color: white;
+    box-shadow: 0 2px 8px rgba(239,68,68,0.3);
+  }
+
+  .btn-sm { padding: 6px 14px; font-size: 12px; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge-blue { background: var(--primary-pale); color: var(--primary); }
+  .badge-green { background: var(--success-light); color: var(--success); }
+  .badge-yellow { background: var(--warning-light); color: var(--warning); }
+  .badge-red { background: var(--danger-light); color: var(--danger); }
+  .badge-gray { background: var(--gray-100); color: var(--gray-500); }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    animation: modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .modal-title { font-size: 20px; font-weight: 700; color: var(--gray-800); }
+  .modal-close {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--gray-100);
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-close:hover { background: var(--gray-200); }
+
+  .modal-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gray-200);
+  }
+
+  /* ===== TUTOR CARDS (Parent/上课端) ===== */
+  .tutor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .tutor-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 0;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+    transition: all 0.25s;
+  }
+  .tutor-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+
+  .tutor-card-header {
+    background: linear-gradient(135deg, var(--primary-pale) 0%, var(--accent-light) 100%);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .tutor-avatar {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    flex-shrink: 0;
+    border: 3px solid white;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .tutor-info h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 4px;
+  }
+
+  .tutor-university {
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .tutor-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--warning);
+  }
+
+  .tutor-card-body {
+    padding: 16px 20px;
+  }
+
+  .tutor-subjects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .subject-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: var(--gray-100);
+    color: var(--gray-600);
+    font-weight: 500;
+  }
+
+  .tutor-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-bottom: 14px;
+    padding: 10px 0;
+    border-top: 1px solid var(--gray-100);
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .tutor-stat { display: flex; align-items: center; gap: 4px; }
+
+  .tutor-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 14px;
+  }
+  .tutor-price span { font-size: 13px; color: var(--gray-400); font-weight: 400; }
+
+  .tutor-card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tutor-card-actions .btn { flex: 1; min-width: 100px; justify-content: center; }
+
+  /* ===== SCHEDULE ===== */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .schedule-day {
+    background: var(--gray-50);
+    border-radius: 10px;
+    padding: 12px 8px;
+    text-align: center;
+    border: 1.5px solid var(--gray-200);
+  }
+
+  .schedule-day-label {
+    font-size: 12px;
+    color: var(--gray-400);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .schedule-slot {
+    background: white;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 6px;
+    padding: 6px 4px;
+    font-size: 11px;
+    color: var(--gray-600);
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .schedule-slot:hover { background: var(--primary-pale); border-color: var(--primary-light); color: var(--primary); }
+  .schedule-slot.occupied { background: var(--primary-pale); border-color: var(--primary-light); color: var(--primary); cursor: default; }
+  .schedule-slot.trial { background: var(--warning-light); border-color: var(--warning); color: var(--warning); cursor: pointer; }
+  .schedule-slot.selectable { background: var(--success-light); border-color: var(--success); color: var(--success); }
+  .schedule-slot.selected { background: var(--success); color: white; border-color: var(--success); }
+
+  /* ===== NEGOTIATION ===== */
+  .negotiation-timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+
+  .negotiation-timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gray-200);
+  }
+
+  .negotiation-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .negotiation-dot {
+    position: absolute;
+    left: -32px;
+    top: 10px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px currentColor;
+  }
+
+  .negotiation-item.parent .negotiation-dot { color: var(--primary); background: var(--primary); }
+  .negotiation-item.teacher .negotiation-dot { color: var(--success); background: var(--success); }
+
+  .negotiation-bubble {
+    background: var(--gray-50);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1px solid var(--gray-200);
+  }
+
+  .negotiation-item.parent .negotiation-bubble {
+    background: var(--primary-pale);
+    border-color: var(--primary-light);
+  }
+
+  .negotiation-meta {
+    font-size: 11px;
+    color: var(--gray-400);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ===== LIVE STREAM ===== */
+  #livestreamPage {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0F172A;
+    z-index: 2000;
+    flex-direction: column;
+  }
+  #livestreamPage.show { display: flex; }
+
+  .livestream-header {
+    height: 60px;
+    background: rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--danger);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: white;
+    animation: livePulse 1.2s ease-in-out infinite;
+  }
+
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .live-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+  }
+
+  .live-timer {
+    margin-left: auto;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+  }
+
+  .livestream-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .livestream-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
+    position: relative;
+  }
+
+  .camera-placeholder {
+    width: 100%;
+    max-width: 860px;
+    aspect-ratio: 16/9;
+    background: #1E293B;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-500);
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .camera-icon { font-size: 64px; }
+  .camera-text { font-size: 18px; color: var(--gray-400); }
+
+  .audio-visualizer {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 40px;
+  }
+
+  .audio-bar {
+    width: 4px;
+    background: var(--primary-light);
+    border-radius: 2px;
+    animation: audioWave 0.8s ease-in-out infinite;
+  }
+
+  .audio-bar:nth-child(1) { animation-delay: 0s; height: 20px; }
+  .audio-bar:nth-child(2) { animation-delay: 0.1s; height: 35px; }
+  .audio-bar:nth-child(3) { animation-delay: 0.2s; height: 25px; }
+  .audio-bar:nth-child(4) { animation-delay: 0.3s; height: 40px; }
+  .audio-bar:nth-child(5) { animation-delay: 0.4s; height: 28px; }
+  .audio-bar:nth-child(6) { animation-delay: 0.5s; height: 18px; }
+  .audio-bar:nth-child(7) { animation-delay: 0.6s; height: 32px; }
+  .audio-bar:nth-child(8) { animation-delay: 0.7s; height: 22px; }
+  .audio-bar:nth-child(9) { animation-delay: 0.15s; height: 36px; }
+  .audio-bar:nth-child(10) { animation-delay: 0.25s; height: 14px; }
+
+  @keyframes audioWave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+  }
+
+  .mic-status {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(37,99,235,0.85);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(8px);
+  }
+
+  .livestream-sidebar {
+    width: 300px;
+    background: #1E293B;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .ls-sidebar-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-300);
+  }
+
+  .participants-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+  }
+
+  .participant-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .participant-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .participant-avatar.observer { background: linear-gradient(135deg, #6366F1, #8B5CF6); }
+
+  .participant-name { font-size: 14px; color: var(--gray-300); flex: 1; }
+  .participant-role { font-size: 11px; color: var(--gray-500); }
+
+  .observer-muted {
+    font-size: 11px;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .livestream-controls {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ls-control-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .ls-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Noto Sans SC', sans-serif;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .ls-btn-end {
+    background: var(--danger);
+    color: white;
+    width: 100%;
+  }
+  .ls-btn-end:hover { background: #DC2626; }
+
+  .ls-btn-mute {
+    background: rgba(255,255,255,0.08);
+    color: var(--gray-300);
+  }
+  .ls-btn-mute:hover { background: rgba(255,255,255,0.14); }
+
+  /* ===== OBSERVER VIEW ===== */
+  .observer-banner {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(99,102,241,0.9);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ===== FORM ELEMENTS ===== */
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-size: 13px; font-weight: 600; color: var(--gray-600); margin-bottom: 6px; display: block; }
+
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Noto Sans SC', sans-serif;
+    color: var(--gray-700);
+    background: white;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+  }
+
+  .form-textarea { resize: vertical; min-height: 80px; }
+
+  /* ===== SEARCH BAR ===== */
+  .search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: white;
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    align-items: center;
+  }
+
+  .search-input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .search-input-wrap input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: 'Noto Sans SC', sans-serif;
+    color: var(--gray-700);
+  }
+
+  /* ===== ADMIN TABLE ===== */
+  .data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+  }
+
+  .data-table th {
+    background: var(--gray-50);
+    color: var(--gray-500);
+    font-weight: 600;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  .data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--gray-700);
+    vertical-align: middle;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--gray-50); }
+
+  /* ===== STATS CARDS ===== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+  }
+
+  .stat-card-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 4px;
+  }
+
+  .stat-card-label { font-size: 13px; color: var(--gray-400); }
+  .stat-card-icon { font-size: 28px; margin-bottom: 12px; }
+
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--gray-200);
+    margin-bottom: 20px;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-500);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.18s;
+  }
+
+  .tab:hover { color: var(--primary); }
+  .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+
+  /* ===== BOOKING MODE SELECT ===== */
+  .mode-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .mode-option {
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .mode-option:hover { border-color: var(--primary-light); background: var(--primary-pale); }
+  .mode-option.selected { border-color: var(--primary); background: var(--primary-pale); }
+  .mode-option.disabled { opacity: 0.45; cursor: not-allowed; background: var(--gray-50); }
+
+  .mode-option h4 { font-size: 15px; font-weight: 700; color: var(--gray-700); margin-bottom: 4px; }
+  .mode-option p { font-size: 12px; color: var(--gray-400); line-height: 1.5; }
+
+  /* ===== PROGRESS ===== */
+  .progress-bar {
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  /* ===== NOTIFICATION ===== */
+  .notification-toast {
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-lg);
+    border-left: 4px solid var(--primary);
+    z-index: 9999;
+    min-width: 300px;
+    display: none;
+    animation: toastIn 0.3s ease;
+  }
+
+  .notification-toast.show { display: block; }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .notification-toast.success { border-left-color: var(--success); }
+  .notification-toast.warning { border-left-color: var(--warning); }
+
+  /* ===== SAVE RECORDING MODAL ===== */
+  .recording-save-modal .modal {
+    max-width: 400px;
+    text-align: center;
+  }
+  .recording-icon { font-size: 56px; margin-bottom: 16px; }
+
+  .hidden { display: none !important; }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <nav class="navbar">
-        <div class="logo" onclick="switchPage('home')">🌲 青松学</div>
-        <div class="nav-links">
-            <button id="nav-home" class="active" onclick="switchPage('home')">首页</button>
-            <button id="nav-parent" onclick="switchPage('parent')">家长入口</button>
-            <button id="nav-student" onclick="switchPage('student')">大学生入口</button>
-            <button id="nav-admin" onclick="switchPage('admin')">管理中台</button>
-        </div>
-    </nav>
+<!-- ===== TOAST ===== -->
+<div class="notification-toast" id="toastEl">
+  <div id="toastMsg" style="font-size:14px;font-weight:600;color:#1E293B;"></div>
+  <div id="toastSub" style="font-size:12px;color:#64748B;margin-top:4px;"></div>
+</div>
 
-    <div id="page-home" class="page">
-        <div class="hero">
-            <h1>让名校学子，成为您的家庭助教</h1>
-            <p>青松学连接了全国 200+ 名校学子，为中小学生提供最具针对性的学业辅导与经验传承。</p>
-            <div style="display: flex; justify-content: center; gap: 20px;">
-                <button class="btn btn-primary btn-lg" onclick="switchPage('parent')">我是家长</button>
-                <button class="btn btn-outline btn-lg" onclick="switchPage('student')">大学生入驻</button>
-            </div>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <h3>真实认证</h3>
-                    <p>严格的学生证与在校证明审核，确保导师身份100%真实。</p>
-                </div>
-                <div class="feature-item">
-                    <h3>实时预约</h3>
-                    <p>家长与导师直接沟通时间，一键预约，平台保障资金安全。</p>
-                </div>
-                <div class="feature-item">
-                    <h3>经验传承</h3>
-                    <p>不仅是知识的传授，更是学习习惯与升学经验的深度分享。</p>
-                </div>
-            </div>
+<!-- ===== LANDING PAGE ===== -->
+<div id="landingPage">
+  <div class="landing-header">
+    <div class="brand-logo">
+      <div class="brand-icon">📚</div>
+      <div>
+        <div class="brand-name">智学云辅</div>
+        <div class="brand-tagline">专业在线辅导平台</div>
+      </div>
+    </div>
+  </div>
+  <div class="landing-hero">
+    <div class="hero-badge">✨ 全新升级 · 智慧学习新体验</div>
+    <div class="hero-title">连接<span>优质大学生</span>导师<br>成就每一位学子</div>
+    <div class="hero-subtitle">智学云辅整合优质大学生师资，提供专业、灵活、高效的在线辅导服务，助力每一位孩子找到最适合的学习伙伴。</div>
+    <div class="portal-cards">
+      <div class="portal-card parent" onclick="enterPortal('parent')">
+        <div class="portal-icon">👨‍👩‍👧</div>
+        <h3>上课端</h3>
+        <p>浏览导师、预约课程<br>管理学习进度</p>
+      </div>
+      <div class="portal-card student" onclick="enterPortal('student')">
+        <div class="portal-icon">🎓</div>
+        <h3>授课端</h3>
+        <p>发布课程、管理学生<br>在线直播授课</p>
+      </div>
+      <div class="portal-card admin" onclick="enterPortal('admin')">
+        <div class="portal-icon">🛡️</div>
+        <h3>管理端</h3>
+        <p>审核资料、监控平台<br>处理财务事务</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP CONTAINER ===== -->
+<div id="appContainer">
+  <div class="top-bar">
+    <div class="top-brand">
+      <div class="top-brand-icon">📚</div>
+      智学云辅
+    </div>
+    <span class="portal-label" id="portalLabel"></span>
+    <div class="top-bar-right">
+      <div class="avatar" id="userAvatar">用</div>
+      <div class="back-btn" onclick="backToLanding()">← 返回首页</div>
+    </div>
+  </div>
+  <div class="main-layout">
+    <div class="sidebar" id="sidebarEl"></div>
+    <div class="content-area" id="contentArea"></div>
+  </div>
+</div>
+
+<!-- ===== LIVESTREAM PAGE ===== -->
+<div id="livestreamPage">
+  <div class="livestream-header">
+    <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+    <div class="live-title" id="liveTitle">直播授课 - 数学辅导</div>
+    <div class="live-timer" id="liveTimer">00:00:00</div>
+  </div>
+  <div class="livestream-body">
+    <div class="livestream-main">
+      <div class="camera-placeholder">
+        <div class="camera-icon">📹</div>
+        <div class="camera-text" id="cameraText">摄像头已开启</div>
+        <div class="audio-visualizer" id="audioViz">
+          <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+          <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+          <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+          <div class="audio-bar"></div>
         </div>
+        <div class="mic-status" id="micStatus">🎙️ 正在录音中</div>
+        <div class="observer-banner hidden" id="observerBanner">👁️ 旁听模式 — 您目前处于试听状态，无法发言</div>
+      </div>
+    </div>
+    <div class="livestream-sidebar">
+      <div class="ls-sidebar-header">📋 课堂成员</div>
+      <div class="participants-list" id="participantsList"></div>
+      <div class="livestream-controls">
+        <div class="ls-control-row">
+          <button class="ls-btn ls-btn-mute" id="muteBtn" onclick="toggleMute()">🎙️ 麦克风</button>
+          <button class="ls-btn ls-btn-mute" onclick="toggleCamera()">📹 摄像头</button>
+        </div>
+        <button class="ls-btn ls-btn-end" id="endLiveBtn" onclick="endLivestream()">⏹ 结束授课</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODALS ===== -->
+
+<!-- Tutor Detail Modal -->
+<div class="modal-overlay" id="tutorDetailModal">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header">
+      <div class="modal-title" id="tutorDetailName">导师详情</div>
+      <button class="modal-close" onclick="closeModal('tutorDetailModal')">✕</button>
+    </div>
+    <div id="tutorDetailContent"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('tutorDetailModal')">关闭</button>
+      <button class="btn btn-outline" onclick="openTrialModal()">📅 预约试听</button>
+      <button class="btn btn-primary" onclick="openBookingModal()">📋 正式预约</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trial Schedule Modal -->
+<div class="modal-overlay" id="trialScheduleModal">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">📅 预约试听课</div>
+        <div style="font-size:13px;color:var(--gray-400);margin-top:4px;" id="trialTeacherName">选择一节正在进行或即将进行的课程旁听</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('trialScheduleModal')">✕</button>
+    </div>
+    <div class="card" style="background:var(--warning-light);border-color:var(--warning);margin-bottom:16px;">
+      <div style="font-size:13px;color:#92400E;"><strong>💡 试听说明：</strong>选择该导师正在进行的课次旁听，您将以观察者身份加入，无法发言，仅可观看授课过程。授课端同意后方可进入。</div>
+    </div>
+    <div id="trialScheduleContent"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('trialScheduleModal')">取消</button>
+      <button class="btn btn-primary" id="confirmTrialBtn" onclick="confirmTrialBooking()">✅ 申请旁听</button>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Modal -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">📋 预约课程</div>
+        <div style="font-size:13px;color:var(--gray-400);margin-top:4px;" id="bookingTeacherLabel"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
     </div>
 
-    <div id="page-parent" class="page hidden">
-        <div class="card" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white;">
-            <h2>发布新的辅导需求</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 150px; gap: 15px; margin-top: 15px;">
-                <input type="text" id="p-req-subject" placeholder="需要什么科目的辅导？">
-                <input type="number" id="p-req-price" placeholder="期望时薪(元)">
-                <button class="btn" style="background: white; color: var(--primary);" onclick="parentPublish()">发布需求</button>
-            </div>
+    <!-- 上课次数提示 -->
+    <div class="card" style="background:var(--primary-pale);border-color:var(--primary-light);margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:24px;">📊</span>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--primary);">已上课次数：<span id="completedLessonsCount">8</span> / 12 节</div>
+          <div style="font-size:12px;color:var(--gray-400);margin-top:2px;" id="longTermHint">再上满 4 节即可解锁长期模式</div>
+          <div class="progress-bar"><div class="progress-fill" id="lessonProgress" style="width:66%"></div></div>
         </div>
-        <div class="section-title">
-            <div class="title-left"><i></i>优质导师(已审核)</div>
-            <div style="width: 300px;"><input type="text" id="tutor-filter" placeholder="🔍 快速查找学校或科目..." oninput="render()" style="margin:0; padding:8px 15px; font-size:13px;"></div>
-        </div>
-        <div id="parent-tutor-results" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;"></div>
-        <div class="section-title"><div class="title-left"><i></i>我的课程/订单进度</div></div>
-        <div class="card" id="parent-orders-list"></div>
+      </div>
     </div>
 
-    <div id="page-student" class="page hidden">
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 25px;">
-            <div>
-                <div class="card">
-                    <h3>我的收益</h3>
-                    <h1 style="color: var(--primary); margin: 10px 0;">￥<span id="stu-balance-display">0.00</span></h1>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="studentRequestWithdraw()">提现申请</button>
-                    <p id="withdraw-hint" style="font-size:12px; color:var(--text-sub); margin-top:10px;"></p>
-                </div>
-                <div class="card">
-                    <h3>完善名片资料</h3>
-                    <input id="stu-name" placeholder="真实姓名">
-                    <input id="stu-school" placeholder="大学名称">
-                    <input id="stu-subject" placeholder="擅长科目">
-                    <input id="stu-rate" type="number" placeholder="期望时薪">
-                    <button class="btn btn-outline" style="width: 100%;" onclick="studentSubmitAudit()">提交审核</button>
-                    <p id="audit-status" style="font-size:12px; color:var(--warning); margin-top:10px;"></p>
-                </div>
-            </div>
-            <div>
-                <div class="section-title"><div class="title-left"><i></i>我的日程安排 (直接预约)</div></div>
-                <div id="student-direct-bookings"></div>
-                <div class="section-title"><div class="title-left"><i></i>接单大厅 (公共需求)</div></div>
-                <div id="student-task-pool"></div>
-            </div>
-        </div>
+    <div class="mode-selector" id="modeSelector">
+      <div class="mode-option selected" id="shortTermOption" onclick="selectMode('short')">
+        <h4>⚡ 短期模式</h4>
+        <p>一次预约 1–3 节课<br>灵活安排，随时调整</p>
+      </div>
+      <div class="mode-option" id="longTermOption" onclick="selectMode('long')">
+        <h4>📅 长期模式</h4>
+        <p>固定周期排课<br>需双方协商确认课表</p>
+      </div>
     </div>
 
-    <div id="page-admin" class="page hidden">
-        <div class="admin-layout">
-            <div class="admin-sidebar">
-                <div class="admin-menu-item active" onclick="switchAdminSub('audit')">🎓 资料审核</div>
-                <div class="admin-menu-item" onclick="switchAdminSub('orders')">📦 订单监控</div>
-                <div class="admin-menu-item" onclick="switchAdminSub('finance')">💰 支付与提现</div>
-            </div>
-            <div class="admin-main">
-                <div id="adm-audit" class="adm-sub">
-                    <div class="card"><h3>待审核导师申请</h3><div id="adm-audit-list"></div></div>
-                </div>
-                <div id="adm-orders" class="adm-sub hidden">
-                    <div class="card"><h3>全站实时监控</h3><table><thead><tr><th>ID</th><th>类型</th><th>内容</th><th>状态</th><th>操作</th></tr></thead><tbody id="adm-table-orders-body"></tbody></table></div>
-                </div>
-                <div id="adm-finance" class="adm-sub hidden">
-                    <div class="card" id="adm-finance-summary"></div>
-                    <div class="card"><h3 style="color:var(--danger)">⚠️ 待处理提现</h3><div id="adm-withdraw-list"></div></div>
-                </div>
-            </div>
-        </div>
+    <!-- Short Term -->
+    <div id="shortTermPanel">
+      <div class="section-title">选择上课时段</div>
+      <div id="shortTermSchedule"></div>
     </div>
+
+    <!-- Long Term -->
+    <div id="longTermPanel" class="hidden">
+      <div class="section-title">🤝 长期协商排课</div>
+      <div class="card" style="background:var(--success-light);border-color:var(--success);margin-bottom:16px;">
+        <div style="font-size:13px;color:#065F46;">长期模式需要双方协商课表，系统支持最多 <strong>10 次</strong> 往返协商，直到双方确认课表为止。</div>
+      </div>
+      <div id="negotiationPanel"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('bookingModal')">取消</button>
+      <button class="btn btn-primary" id="submitBookingBtn" onclick="submitBooking()">✅ 提交预约</button>
+    </div>
+  </div>
+</div>
+
+<!-- Observer Live Modal -->
+<div class="modal-overlay" id="observerModal">
+  <div class="modal" style="max-width:400px;text-align:center;">
+    <div style="font-size:56px;margin-bottom:16px;">👁️</div>
+    <div class="modal-title" style="margin-bottom:12px;">进入旁听模式</div>
+    <div style="font-size:14px;color:var(--gray-500);line-height:1.7;margin-bottom:20px;">
+      您已申请旁听 <strong id="observerTeacherName"></strong> 导师的课程。<br>
+      旁听模式下您<strong>无法发言</strong>，仅可观看授课过程。<br>授课端已同意您的旁听申请。
+    </div>
+    <div class="modal-footer" style="justify-content:center;">
+      <button class="btn btn-ghost" onclick="closeModal('observerModal')">稍后进入</button>
+      <button class="btn btn-primary" onclick="enterObserverMode()">👁️ 立即进入旁听</button>
+    </div>
+  </div>
+</div>
+
+<!-- Save Recording Modal -->
+<div class="modal-overlay" id="saveRecordingModal">
+  <div class="modal" style="max-width:380px;text-align:center;">
+    <div class="recording-icon">🎙️</div>
+    <div class="modal-title" style="margin-bottom:12px;">是否保存录音文件？</div>
+    <div style="font-size:14px;color:var(--gray-500);line-height:1.7;margin-bottom:8px;">
+      本次授课已录音 <strong id="recordingDuration"></strong>。<br>
+      点击"保存"将下载 WAV 格式的录音文件。
+    </div>
+    <div class="modal-footer" style="justify-content:center;">
+      <button class="btn btn-ghost" onclick="discardRecording()">不保存</button>
+      <button class="btn btn-primary" onclick="saveRecording()">💾 保存录音</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trial Request Modal (Teacher side) -->
+<div class="modal-overlay" id="trialRequestModal">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <div class="modal-title">🔔 旁听申请</div>
+      <button class="modal-close" onclick="closeModal('trialRequestModal')">✕</button>
+    </div>
+    <div style="font-size:14px;color:var(--gray-600);line-height:1.8;margin-bottom:16px;">
+      家长 <strong>王女士</strong> 申请旁听您 <strong>2025年1月18日 周六 14:00</strong> 的课程。<br>
+      同意后，该用户将以旁听身份加入，无发言权限。
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('trialRequestModal')">拒绝</button>
+      <button class="btn btn-success" onclick="approveTrialRequest()">✅ 同意旁听</button>
+    </div>
+  </div>
+</div>
+
+<!-- Negotiation Reply Modal -->
+<div class="modal-overlay" id="negotiationReplyModal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header">
+      <div class="modal-title" id="negReplyTitle">回复课表方案</div>
+      <button class="modal-close" onclick="closeModal('negotiationReplyModal')">✕</button>
+    </div>
+    <div id="negReplyContent"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('negotiationReplyModal')">取消</button>
+      <button class="btn btn-success" onclick="acceptNegotiation()">✅ 接受课表</button>
+      <button class="btn btn-primary" onclick="submitNegotiationReply()">📤 发送方案</button>
+    </div>
+  </div>
 </div>
 
 <script>
-    // --- 数据模型 ---
-    let state = {
-        balance: 0.00,
-        taxTotal: 0.00,
-        tutors: [{ name: "王学长", school: "北京大学", subject: "高中英语", price: 160, verified: true }],
-        auditQueue: [],
-        allOrders: [],
-        withdrawRequests: []
-    };
+// ===========================
+// STATE
+// ===========================
+let currentPortal = null;
+let currentSection = null;
+let liveTimerInterval = null;
+let liveSeconds = 0;
+let isRecording = false;
+let mediaRecorder = null;
+let recordedChunks = [];
+let audioStream = null;
+let selectedMode = 'short';
+let completedLessons = 8;
+let currentTutor = null;
+let isObserverMode = false;
+let negotiationRound = 0;
+let selectedTrialSlot = null;
 
-    // --- 页面路由 ---
-    function switchPage(p) {
-        document.querySelectorAll('.page').forEach(el => el.classList.add('hidden'));
-        document.getElementById('page-' + p).classList.remove('hidden');
-        document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
-        document.getElementById('nav-' + p).classList.add('active');
-        render();
+const tutors = [
+  { id: 1, name: '陈思远', university: '北京大学 计算机科学与技术', subjects: ['数学','物理','编程基础'], rating: 4.9, students: 23, hours: 312, price: 120, certified: true, bio: '北大大三学生，高考数学满分，擅长趣味讲解，已辅导20余名学生，均反映成绩显著提升。' },
+  { id: 2, name: '林晓雨', university: '清华大学 物理学系', subjects: ['物理','化学','数学'], rating: 4.8, students: 18, hours: 256, price: 135, certified: true, bio: '清华物理系研究生，物理竞赛省级一等奖，授课风格严谨细致。' },
+  { id: 3, name: '王子豪', university: '复旦大学 中国语言文学', subjects: ['语文','写作','文学赏析'], rating: 4.7, students: 31, hours: 420, price: 95, certified: true, bio: '复旦文学系，发表多篇文章，擅长作文与阅读理解辅导。' },
+  { id: 4, name: '赵婷婷', university: '上海交通大学 英语语言文学', subjects: ['英语','英语写作','口语'], rating: 4.9, students: 45, hours: 680, price: 110, certified: true, bio: '交大英语系，托福118分，英语口语流利，善于激发学习兴趣。' },
+  { id: 5, name: '刘浩然', university: '浙江大学 生物工程', subjects: ['生物','化学'], rating: 4.6, students: 12, hours: 145, price: 100, certified: false, bio: '浙大生物工程大二学生，高考理综满分，辅导经验丰富。' },
+  { id: 6, name: '吴雅文', university: '南京大学 数学系', subjects: ['数学','统计学'], rating: 4.8, students: 28, hours: 389, price: 115, certified: true, bio: '南大数学系，数学建模国赛银奖，善于将抽象概念具象化。' },
+];
+
+const weekdays = ['周一','周二','周三','周四','周五','周六','周日'];
+const timeSlots = [
+  { time: '09:00', label: '09:00' },
+  { time: '10:30', label: '10:30' },
+  { time: '14:00', label: '14:00' },
+  { time: '15:30', label: '15:30' },
+  { time: '19:00', label: '19:00' },
+  { time: '20:30', label: '20:30' },
+];
+
+// Simulate occupied slots for each tutor
+const occupiedSlots = {
+  1: [{day:5,slot:2},{day:5,slot:3},{day:6,slot:1}],
+  2: [{day:1,slot:4},{day:3,slot:4},{day:6,slot:2}],
+  3: [{day:0,slot:2},{day:2,slot:5},{day:4,slot:3}],
+  4: [{day:1,slot:1},{day:4,slot:2},{day:6,slot:4}],
+  5: [{day:0,slot:1},{day:3,slot:0},{day:5,slot:5}],
+  6: [{day:2,slot:0},{day:4,slot:4},{day:6,slot:3}],
+};
+
+const negotiationHistory = [
+  { role: 'parent', text: '申请长期排课，期望每周一、三、五 19:00-20:30 上课。', time: '2025-01-10 09:15' },
+  { role: 'teacher', text: '周五 19:00 我有其他安排，建议改为周二、四、六 19:00-20:30，请确认是否可行？', time: '2025-01-10 14:30' },
+  { role: 'parent', text: '周六不太方便，可以改为周二、四、日 19:00-20:30 吗？', time: '2025-01-11 08:45' },
+];
+
+// ===========================
+// NAVIGATION
+// ===========================
+function enterPortal(portal) {
+  currentPortal = portal;
+  document.getElementById('landingPage').style.display = 'none';
+  document.getElementById('appContainer').style.display = 'flex';
+  const label = document.getElementById('portalLabel');
+  const avatar = document.getElementById('userAvatar');
+  if (portal === 'parent') {
+    label.textContent = '上课端';
+    label.className = 'portal-label parent';
+    avatar.textContent = '家';
+    renderSidebar(parentNav);
+    showSection('findTutors');
+  } else if (portal === 'student') {
+    label.textContent = '授课端';
+    label.className = 'portal-label student';
+    avatar.textContent = '师';
+    renderSidebar(studentNav);
+    showSection('mySchedule');
+  } else {
+    label.textContent = '管理端';
+    label.className = 'portal-label admin';
+    avatar.textContent = '管';
+    renderSidebar(adminNav);
+    showSection('adminDashboard');
+  }
+}
+
+function backToLanding() {
+  document.getElementById('landingPage').style.display = 'flex';
+  document.getElementById('appContainer').style.display = 'none';
+  currentPortal = null;
+}
+
+const parentNav = [
+  { section: 'home', label: '我的主页', sections: [
+    { id: 'findTutors', icon: '🔍', label: '寻找导师' },
+    { id: 'myOrders', icon: '📋', label: '我的课程' },
+    { id: 'myWallet', icon: '💰', label: '钱包充值' },
+  ]},
+  { section: 'post', label: '需求', sections: [
+    { id: 'postDemand', icon: '📢', label: '发布需求' },
+    { id: 'myDemands', icon: '📬', label: '我的需求' },
+  ]},
+];
+
+const studentNav = [
+  { section: 'teach', label: '授课', sections: [
+    { id: 'mySchedule', icon: '📅', label: '我的日程' },
+    { id: 'myOrders_s', icon: '📋', label: '我的订单' },
+    { id: 'startLive', icon: '🎥', label: '开始授课' },
+  ]},
+  { section: 'manage', label: '管理', sections: [
+    { id: 'myProfile', icon: '👤', label: '我的资料' },
+    { id: 'myEarnings', icon: '💳', label: '我的收入' },
+    { id: 'trialRequests', icon: '🔔', label: '旁听申请' },
+  ]},
+];
+
+const adminNav = [
+  { section: 'overview', label: '概览', sections: [
+    { id: 'adminDashboard', icon: '📊', label: '数据总览' },
+    { id: 'orderMonitor', icon: '📋', label: '订单监控' },
+  ]},
+  { section: 'review', label: '审核', sections: [
+    { id: 'profileReview', icon: '🔍', label: '资料审核' },
+    { id: 'withdrawals', icon: '💸', label: '提现审批' },
+  ]},
+  { section: 'finance', label: '财务', sections: [
+    { id: 'transactions', icon: '💰', label: '交易记录' },
+    { id: 'commission', icon: '📈', label: '平台佣金' },
+  ]},
+];
+
+function renderSidebar(navConfig) {
+  const sb = document.getElementById('sidebarEl');
+  sb.innerHTML = navConfig.map(group => `
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">${group.section === 'home' ? '' : group.label}</div>
+      ${group.sections.map(item => `
+        <div class="sidebar-item" id="nav_${item.id}" onclick="showSection('${item.id}')">
+          <span class="si-icon">${item.icon}</span>${item.label}
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function showSection(sectionId) {
+  currentSection = sectionId;
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  const navEl = document.getElementById('nav_' + sectionId);
+  if (navEl) navEl.classList.add('active');
+
+  const content = document.getElementById('contentArea');
+  const renders = {
+    findTutors: renderFindTutors,
+    myOrders: renderMyOrders,
+    myWallet: renderMyWallet,
+    postDemand: renderPostDemand,
+    myDemands: renderMyDemands,
+    mySchedule: renderMySchedule,
+    myOrders_s: renderStudentOrders,
+    startLive: renderStartLive,
+    myProfile: renderMyProfile,
+    myEarnings: renderMyEarnings,
+    trialRequests: renderTrialRequests,
+    adminDashboard: renderAdminDashboard,
+    orderMonitor: renderOrderMonitor,
+    profileReview: renderProfileReview,
+    withdrawals: renderWithdrawals,
+    transactions: renderTransactions,
+    commission: renderCommission,
+  };
+  if (renders[sectionId]) {
+    content.innerHTML = renders[sectionId]();
+    postRender(sectionId);
+  }
+}
+
+function postRender(sectionId) {
+  if (sectionId === 'myEarnings') {
+    document.getElementById('withdrawBtn')?.addEventListener('click', requestWithdrawal);
+  }
+  if (sectionId === 'startLive') {
+    document.getElementById('startLiveBtn')?.addEventListener('click', startLivestream);
+  }
+}
+
+// ===========================
+// PARENT PORTAL RENDERS
+// ===========================
+function renderFindTutors() {
+  return `
+    <div class="page-header">
+      <div class="page-title">🔍 寻找导师</div>
+      <div class="page-desc">浏览经认证的优质大学生导师，选择最适合的授课老师</div>
+    </div>
+    <div class="search-bar">
+      <div class="search-input-wrap">
+        <span>🔍</span>
+        <input placeholder="搜索导师姓名、科目、学校…" oninput="filterTutors(this.value)" id="tutorSearch" />
+      </div>
+      <select class="form-select" style="width:150px;" onchange="filterBySubject(this.value)">
+        <option value="">全部科目</option>
+        <option>数学</option><option>物理</option><option>化学</option>
+        <option>语文</option><option>英语</option><option>生物</option><option>编程基础</option>
+      </select>
+    </div>
+    <div class="section-title">✅ 认证导师列表</div>
+    <div class="tutor-grid" id="tutorGrid">
+      ${tutors.map(t => renderTutorCard(t)).join('')}
+    </div>
+  `;
+}
+
+function renderTutorCard(t) {
+  return `
+    <div class="tutor-card" id="tc_${t.id}">
+      <div class="tutor-card-header">
+        <div class="tutor-avatar">${t.name[0]}</div>
+        <div class="tutor-info">
+          <h3>${t.name} ${t.certified ? '<span class="badge badge-blue">✓ 认证导师</span>' : ''}</h3>
+          <div class="tutor-university">🏫 ${t.university}</div>
+          <div class="tutor-rating">${'★'.repeat(Math.floor(t.rating))} <span style="color:var(--gray-500)">${t.rating}</span></div>
+        </div>
+      </div>
+      <div class="tutor-card-body">
+        <div class="tutor-subjects">${t.subjects.map(s => `<span class="subject-tag">${s}</span>`).join('')}</div>
+        <div class="tutor-stats">
+          <div class="tutor-stat">👨‍🎓 <span>${t.students} 名学生</span></div>
+          <div class="tutor-stat">⏱️ <span>${t.hours} 课时</span></div>
+        </div>
+        <div class="tutor-price">¥${t.price}<span> / 课时</span></div>
+        <div class="tutor-card-actions">
+          <button class="btn btn-outline btn-sm" onclick="openTutorDetail(${t.id})">👤 查看详情</button>
+          <button class="btn btn-ghost btn-sm" onclick="openTrialSchedule(${t.id})" style="background:var(--warning-light);color:#92400E;border:1px solid var(--warning);">🎧 预约试听</button>
+          <button class="btn btn-primary btn-sm" onclick="openBookingDirect(${t.id})">📋 预约课程</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function filterTutors(q) {
+  const grid = document.getElementById('tutorGrid');
+  const filtered = tutors.filter(t =>
+    t.name.includes(q) || t.subjects.some(s => s.includes(q)) || t.university.includes(q)
+  );
+  grid.innerHTML = filtered.map(t => renderTutorCard(t)).join('');
+}
+
+function filterBySubject(s) {
+  const grid = document.getElementById('tutorGrid');
+  const filtered = s ? tutors.filter(t => t.subjects.includes(s)) : tutors;
+  grid.innerHTML = filtered.map(t => renderTutorCard(t)).join('');
+}
+
+function openTutorDetail(id) {
+  currentTutor = tutors.find(t => t.id === id);
+  document.getElementById('tutorDetailName').textContent = currentTutor.name + ' 导师';
+  document.getElementById('tutorDetailContent').innerHTML = `
+    <div style="display:flex;gap:20px;align-items:flex-start;margin-bottom:20px;">
+      <div class="tutor-avatar" style="width:72px;height:72px;font-size:26px;">${currentTutor.name[0]}</div>
+      <div style="flex:1">
+        <div style="font-size:15px;font-weight:600;color:var(--gray-700);margin-bottom:4px;">🏫 ${currentTutor.university}</div>
+        <div style="font-size:14px;color:var(--gray-500);line-height:1.7;">${currentTutor.bio}</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;">
+      <div class="stat-card"><div class="stat-card-icon">👨‍🎓</div><div class="stat-card-value">${currentTutor.students}</div><div class="stat-card-label">辅导学生</div></div>
+      <div class="stat-card"><div class="stat-card-icon">⏱️</div><div class="stat-card-value">${currentTutor.hours}</div><div class="stat-card-label">授课课时</div></div>
+      <div class="stat-card"><div class="stat-card-icon">⭐</div><div class="stat-card-value">${currentTutor.rating}</div><div class="stat-card-label">综合评分</div></div>
+    </div>
+    <div class="section-title">📚 擅长科目</div>
+    <div class="tutor-subjects" style="margin-bottom:16px;">${currentTutor.subjects.map(s => `<span class="subject-tag" style="font-size:13px;padding:5px 14px;">${s}</span>`).join('')}</div>
+    <div class="section-title">💰 收费标准</div>
+    <div style="font-size:22px;font-weight:700;color:var(--primary);">¥${currentTutor.price}<span style="font-size:14px;color:var(--gray-400);font-weight:400;"> / 课时（90分钟）</span></div>
+  `;
+  showModal('tutorDetailModal');
+}
+
+function openTrialSchedule(id) {
+  currentTutor = tutors.find(t => t.id === id);
+  document.getElementById('trialTeacherName').textContent = `${currentTutor.name} 导师（${currentTutor.university}）`;
+  document.getElementById('trialScheduleContent').innerHTML = renderTrialScheduleGrid(id);
+  closeModal('tutorDetailModal');
+  showModal('trialScheduleModal');
+}
+
+function renderTrialScheduleGrid(tutorId) {
+  const occ = occupiedSlots[tutorId] || [];
+  let html = `<div style="margin-bottom:12px;font-size:13px;color:var(--gray-500);">
+    <span style="display:inline-flex;align-items:center;gap:4px;margin-right:16px;"><span style="width:12px;height:12px;border-radius:3px;background:var(--primary-pale);border:1px solid var(--primary-light);display:inline-block;"></span>已有课程（可申请旁听）</span>
+    <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:12px;height:12px;border-radius:3px;background:var(--gray-100);display:inline-block;"></span>空闲时段</span>
+  </div>`;
+  html += `<div class="schedule-grid">`;
+  weekdays.forEach((day, di) => {
+    html += `<div class="schedule-day"><div class="schedule-day-label">${day}</div>`;
+    timeSlots.forEach((slot, si) => {
+      const isOcc = occ.some(o => o.day === di && o.slot === si);
+      if (isOcc) {
+        html += `<div class="schedule-slot occupied" onclick="selectTrialSlot(${di},${si},this)" data-day="${di}" data-slot="${si}" title="点击申请旁听">${slot.label}<br><span style="font-size:9px;">已有课程</span></div>`;
+      } else {
+        html += `<div class="schedule-slot" style="opacity:0.35;cursor:default;">${slot.label}</div>`;
+      }
+    });
+    html += `</div>`;
+  });
+  html += `</div>`;
+  html += `<div id="trialSlotNote" style="font-size:13px;color:var(--gray-400);margin-top:8px;">请选择一个已有课程的时段进行旁听申请</div>`;
+  return html;
+}
+
+function selectTrialSlot(day, slot, el) {
+  document.querySelectorAll('.schedule-slot.occupied').forEach(e => e.style.background = '');
+  el.style.background = '#FEF3C7';
+  el.style.borderColor = '#F59E0B';
+  selectedTrialSlot = { day, slot };
+  const dayName = weekdays[day];
+  const slotTime = timeSlots[slot].time;
+  document.getElementById('trialSlotNote').innerHTML = `<span style="color:var(--warning);font-weight:600;">✓ 已选择：${dayName} ${slotTime} — 点击"申请旁听"提交申请</span>`;
+}
+
+function confirmTrialBooking() {
+  if (!selectedTrialSlot) { showToast('请先选择一个时段', '', 'warning'); return; }
+  closeModal('trialScheduleModal');
+  showToast('旁听申请已发送', '等待导师确认，确认后将通知您进入', 'success');
+  setTimeout(() => {
+    document.getElementById('observerTeacherName').textContent = currentTutor.name;
+    showModal('observerModal');
+  }, 2000);
+}
+
+function openBookingDirect(id) {
+  currentTutor = tutors.find(t => t.id === id);
+  openBookingModal();
+}
+
+function openTrialModal() { openTrialSchedule(currentTutor.id); }
+
+function openBookingModal() {
+  const t = currentTutor;
+  document.getElementById('bookingTeacherLabel').textContent = t ? `${t.name} 导师 · ¥${t.price}/课时` : '';
+  const count = completedLessons;
+  const pct = Math.min(100, (count/12)*100);
+  document.getElementById('completedLessonsCount').textContent = count;
+  document.getElementById('lessonProgress').style.width = pct + '%';
+  const longOpt = document.getElementById('longTermOption');
+  if (count < 12) {
+    longOpt.classList.add('disabled');
+    document.getElementById('longTermHint').textContent = `再上满 ${12-count} 节即可解锁长期模式`;
+  } else {
+    longOpt.classList.remove('disabled');
+    document.getElementById('longTermHint').textContent = '✅ 已满 12 节，可使用长期模式';
+  }
+  selectedMode = 'short';
+  document.getElementById('shortTermOption').classList.add('selected');
+  document.getElementById('longTermOption').classList.remove('selected');
+  document.getElementById('shortTermPanel').classList.remove('hidden');
+  document.getElementById('longTermPanel').classList.add('hidden');
+  renderShortTermSchedule();
+  closeModal('tutorDetailModal');
+  showModal('bookingModal');
+}
+
+function selectMode(mode) {
+  if (mode === 'long' && completedLessons < 12) {
+    showToast('尚未解锁', '需上满12节课后方可使用长期模式', 'warning');
+    return;
+  }
+  selectedMode = mode;
+  document.getElementById('shortTermOption').classList.toggle('selected', mode === 'short');
+  document.getElementById('longTermOption').classList.toggle('selected', mode === 'long');
+  document.getElementById('shortTermPanel').classList.toggle('hidden', mode !== 'short');
+  document.getElementById('longTermPanel').classList.toggle('hidden', mode !== 'long');
+  if (mode === 'long') renderNegotiationPanel();
+}
+
+function renderShortTermSchedule() {
+  const t = currentTutor;
+  const occ = t ? (occupiedSlots[t.id] || []) : [];
+  let html = `<div style="font-size:13px;color:var(--gray-500);margin-bottom:12px;">选择 1–3 个时段（绿色为可预约时段）：</div>`;
+  html += `<div class="schedule-grid">`;
+  weekdays.forEach((day, di) => {
+    html += `<div class="schedule-day"><div class="schedule-day-label">${day}</div>`;
+    timeSlots.forEach((slot, si) => {
+      const isOcc = occ.some(o => o.day === di && o.slot === si);
+      if (!isOcc) {
+        html += `<div class="schedule-slot selectable" onclick="toggleSelectSlot(${di},${si},this)" data-day="${di}" data-slot="${si}">${slot.label}</div>`;
+      } else {
+        html += `<div class="schedule-slot occupied">${slot.label}</div>`;
+      }
+    });
+    html += `</div>`;
+  });
+  html += `</div>`;
+  html += `<div id="selectedSlotsNote" style="font-size:13px;color:var(--gray-400);margin-top:8px;">已选 0/3 个时段</div>`;
+  document.getElementById('shortTermSchedule').innerHTML = html;
+}
+
+let selectedSlots = [];
+
+function toggleSelectSlot(day, slot, el) {
+  const key = `${day}-${slot}`;
+  const idx = selectedSlots.indexOf(key);
+  if (idx > -1) {
+    selectedSlots.splice(idx, 1);
+    el.classList.remove('selected');
+    el.classList.add('selectable');
+  } else {
+    if (selectedSlots.length >= 3) { showToast('最多选择3个时段', '', 'warning'); return; }
+    selectedSlots.push(key);
+    el.classList.add('selected');
+  }
+  document.getElementById('selectedSlotsNote').textContent = `已选 ${selectedSlots.length}/3 个时段`;
+}
+
+function renderNegotiationPanel() {
+  let html = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div style="font-size:13px;color:var(--gray-500);">协商进度：第 ${negotiationHistory.length} 轮 / 最多 10 轮</div>
+      <div class="badge badge-blue">${10 - negotiationHistory.length} 次机会剩余</div>
+    </div>
+    <div class="progress-bar" style="margin-bottom:16px;"><div class="progress-fill" style="width:${negotiationHistory.length*10}%"></div></div>
+    <div class="negotiation-timeline">`;
+  negotiationHistory.forEach(item => {
+    html += `
+      <div class="negotiation-item ${item.role}">
+        <div class="negotiation-dot"></div>
+        <div class="negotiation-bubble">
+          <div class="negotiation-meta">
+            <strong>${item.role === 'parent' ? '👨‍👩‍👧 上课方' : '🎓 ' + (currentTutor?.name || '导师')}</strong>
+            <span>${item.time}</span>
+          </div>
+          <div style="font-size:14px;color:var(--gray-700);">${item.text}</div>
+        </div>
+      </div>`;
+  });
+  html += `</div>
+    <div style="margin-top:16px;">
+      <div class="form-label">发送新方案</div>
+      <textarea class="form-textarea" id="negNewMsg" placeholder="请描述您希望的上课时间安排…" rows="3"></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button class="btn btn-success btn-sm" onclick="acceptCurrentSchedule()">✅ 接受当前方案</button>
+        <button class="btn btn-primary btn-sm" onclick="sendNegotiation()">📤 发送方案</button>
+      </div>
+    </div>`;
+  document.getElementById('negotiationPanel').innerHTML = html;
+}
+
+function sendNegotiation() {
+  const msg = document.getElementById('negNewMsg')?.value;
+  if (!msg) { showToast('请输入方案内容', '', 'warning'); return; }
+  negotiationHistory.push({ role: 'parent', text: msg, time: '2025-01-12 10:00' });
+  renderNegotiationPanel();
+  showToast('方案已发送', '等待导师回复', 'success');
+}
+
+function acceptCurrentSchedule() {
+  closeModal('bookingModal');
+  showToast('🎉 课表已确认！', '长期课表已安排，请在"我的课程"查看', 'success');
+}
+
+function submitBooking() {
+  if (selectedMode === 'short' && selectedSlots.length === 0) {
+    showToast('请选择上课时段', '', 'warning'); return;
+  }
+  closeModal('bookingModal');
+  selectedSlots = [];
+  showToast('✅ 预约成功', '课程已预约，请在"我的课程"中查看', 'success');
+}
+
+function renderMyOrders() {
+  return `
+    <div class="page-header"><div class="page-title">📋 我的课程</div></div>
+    <div class="tabs">
+      <div class="tab active">进行中 (3)</div>
+      <div class="tab">已完成 (8)</div>
+      <div class="tab">待确认 (1)</div>
+    </div>
+    <div class="card">
+      <table class="data-table">
+        <thead><tr><th>导师</th><th>科目</th><th>时间</th><th>状态</th><th>模式</th><th>操作</th></tr></thead>
+        <tbody>
+          <tr><td>陈思远</td><td>数学</td><td>周二 19:00</td><td><span class="badge badge-green">进行中</span></td><td><span class="badge badge-blue">短期</span></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+          <tr><td>林晓雨</td><td>物理</td><td>周四 19:00</td><td><span class="badge badge-green">进行中</span></td><td><span class="badge badge-blue">短期</span></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+          <tr><td>赵婷婷</td><td>英语</td><td>待确认</td><td><span class="badge badge-yellow">协商中</span></td><td><span class="badge badge-gray">长期</span></td><td><button class="btn btn-primary btn-sm" onclick="openNegotiationReply()">回复</button></td></tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function renderMyWallet() {
+  return `
+    <div class="page-header"><div class="page-title">💰 钱包充值</div></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-card-icon">💳</div><div class="stat-card-value">¥480</div><div class="stat-card-label">账户余额</div></div>
+      <div class="stat-card"><div class="stat-card-icon">📉</div><div class="stat-card-value">¥1,240</div><div class="stat-card-label">累计消费</div></div>
+    </div>
+    <div class="card">
+      <div class="section-title">充值金额</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+        ${[100,200,500,1000].map(a => `<button class="btn btn-outline" onclick="this.parentElement.querySelectorAll('.btn').forEach(b=>b.classList.remove('btn-primary'));this.classList.add('btn-primary')">¥${a}</button>`).join('')}
+      </div>
+      <input class="form-input" placeholder="或输入自定义金额" style="max-width:240px;margin-bottom:16px;" />
+      <div><button class="btn btn-primary">💳 立即充值</button></div>
+    </div>`;
+}
+
+function renderPostDemand() {
+  return `
+    <div class="page-header"><div class="page-title">📢 发布辅导需求</div></div>
+    <div class="card">
+      <div class="form-group"><label class="form-label">科目</label><select class="form-select"><option>数学</option><option>物理</option><option>化学</option><option>语文</option><option>英语</option></select></div>
+      <div class="form-group"><label class="form-label">年级</label><select class="form-select"><option>高一</option><option>高二</option><option>高三</option></select></div>
+      <div class="form-group"><label class="form-label">预期课时数</label><input class="form-input" type="number" placeholder="如：10" /></div>
+      <div class="form-group"><label class="form-label">期望时间</label><input class="form-input" placeholder="如：每周末上午" /></div>
+      <div class="form-group"><label class="form-label">预算（/课时）</label><input class="form-input" type="number" placeholder="如：100" /></div>
+      <div class="form-group"><label class="form-label">需求描述</label><textarea class="form-textarea" placeholder="详细描述孩子的学习情况和需求…"></textarea></div>
+      <button class="btn btn-primary" onclick="showToast('需求已发布','导师们将很快看到您的需求','success')">📢 发布需求</button>
+    </div>`;
+}
+
+function renderMyDemands() {
+  return `
+    <div class="page-header"><div class="page-title">📬 我的需求</div></div>
+    <div class="card">
+      <table class="data-table">
+        <thead><tr><th>科目</th><th>年级</th><th>预算</th><th>状态</th><th>投标数</th></tr></thead>
+        <tbody>
+          <tr><td>数学</td><td>高中</td><td>¥100/课时</td><td><span class="badge badge-green">进行中</span></td><td>3 位导师</td></tr>
+          <tr><td>英语口语</td><td>初中</td><td>¥80/课时</td><td><span class="badge badge-yellow">审核中</span></td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+// ===========================
+// STUDENT PORTAL RENDERS
+// ===========================
+function renderMySchedule() {
+  return `
+    <div class="page-header"><div class="page-title">📅 我的日程</div></div>
+    <div class="card" style="background:var(--success-light);border-color:var(--success);margin-bottom:20px;">
+      <div style="font-size:14px;color:#065F46;font-weight:600;">🔔 新通知：家长王女士 已预约您周二 19:00 的数学课</div>
+    </div>
+    <div class="card">
+      <div class="section-title">本周课程安排</div>
+      <table class="data-table">
+        <thead><tr><th>日期</th><th>时间</th><th>科目</th><th>学生</th><th>模式</th><th>操作</th></tr></thead>
+        <tbody>
+          <tr><td>周二</td><td>19:00–20:30</td><td>数学</td><td>王同学</td><td><span class="badge badge-blue">短期</span></td><td><button class="btn btn-primary btn-sm" onclick="showSection('startLive')">🎥 开始授课</button></td></tr>
+          <tr><td>周四</td><td>19:00–20:30</td><td>物理</td><td>李同学</td><td><span class="badge badge-blue">短期</span></td><td><button class="btn btn-primary btn-sm" onclick="showSection('startLive')">🎥 开始授课</button></td></tr>
+          <tr><td>周六</td><td>14:00–15:30</td><td>数学</td><td>张同学（旁听申请待审）</td><td><span class="badge badge-yellow">试听待确认</span></td><td><button class="btn btn-success btn-sm" onclick="openTrialRequestModal()">确认旁听</button></td></tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function openTrialRequestModal() { showModal('trialRequestModal'); }
+
+function approveTrialRequest() {
+  closeModal('trialRequestModal');
+  showToast('✅ 已同意旁听', '家长将以旁听身份进入课堂', 'success');
+}
+
+function renderStudentOrders() {
+  return `
+    <div class="page-header"><div class="page-title">📋 我的订单</div></div>
+    <div class="card">
+      <table class="data-table">
+        <thead><tr><th>学生</th><th>科目</th><th>时间</th><th>课时费</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr><td>王同学</td><td>数学</td><td>周二 19:00</td><td>¥96</td><td><span class="badge badge-green">进行中</span></td></tr>
+          <tr><td>李同学</td><td>物理</td><td>周四 19:00</td><td>¥108</td><td><span class="badge badge-green">进行中</span></td></tr>
+          <tr><td>张同学</td><td>数学</td><td>周六 14:00</td><td>¥96</td><td><span class="badge badge-yellow">待上课</span></td></tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function renderStartLive() {
+  return `
+    <div class="page-header"><div class="page-title">🎥 开始授课</div></div>
+    <div class="card" style="text-align:center;padding:48px;">
+      <div style="font-size:64px;margin-bottom:20px;">🎓</div>
+      <div style="font-size:20px;font-weight:700;color:var(--gray-700);margin-bottom:8px;">准备开始今天的课程</div>
+      <div style="font-size:14px;color:var(--gray-400);margin-bottom:32px;">点击下方按钮开始直播授课，系统将自动录音</div>
+      <div class="card" style="max-width:400px;margin:0 auto 24px;text-align:left;background:var(--primary-pale);border-color:var(--primary-light);">
+        <div style="font-size:13px;color:var(--primary);"><strong>📋 今日课程：</strong>数学 · 王同学 · 19:00–20:30</div>
+        <div style="font-size:12px;color:var(--gray-400);margin-top:4px;">1 位旁听者已申请（王女士）</div>
+      </div>
+      <button class="btn btn-primary" id="startLiveBtn" style="font-size:16px;padding:14px 40px;">🎥 进入直播课堂</button>
+    </div>`;
+}
+
+function renderMyProfile() {
+  return `
+    <div class="page-header"><div class="page-title">👤 我的资料</div></div>
+    <div class="card" style="background:var(--warning-light);border-color:var(--warning);">
+      <div style="font-size:13px;color:#92400E;">⏳ 资料变更已提交，等待管理端审核中</div>
+    </div>
+    <div class="card">
+      <div class="form-group"><label class="form-label">姓名</label><input class="form-input" value="陈思远" /></div>
+      <div class="form-group"><label class="form-label">学校</label><input class="form-input" value="北京大学" /></div>
+      <div class="form-group"><label class="form-label">专业</label><input class="form-input" value="计算机科学与技术" /></div>
+      <div class="form-group"><label class="form-label">年级</label><select class="form-select"><option>大三</option></select></div>
+      <div class="form-group"><label class="form-label">擅长科目</label><input class="form-input" value="数学、物理、编程基础" /></div>
+      <div class="form-group"><label class="form-label">个人介绍</label><textarea class="form-textarea">北大大三学生，高考数学满分，擅长趣味讲解，已辅导20余名学生，均反映成绩显著提升。</textarea></div>
+      <div class="form-group"><label class="form-label">课时费（元/课时）</label><input class="form-input" type="number" value="120" /></div>
+      <button class="btn btn-primary" onclick="showToast('已提交审核','资料变更将在审核通过后更新','success')">💾 提交审核</button>
+    </div>`;
+}
+
+function renderMyEarnings() {
+  return `
+    <div class="page-header"><div class="page-title">💳 我的收入</div></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-card-icon">💰</div><div class="stat-card-value">¥1,920</div><div class="stat-card-label">可提现余额</div></div>
+      <div class="stat-card"><div class="stat-card-icon">📈</div><div class="stat-card-value">¥3,840</div><div class="stat-card-label">累计收入</div></div>
+      <div class="stat-card"><div class="stat-card-icon">⏳</div><div class="stat-card-value">¥480</div><div class="stat-card-label">待结算</div></div>
+    </div>
+    <div class="card">
+      <div class="section-title">提现申请</div>
+      <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+        <div class="form-group" style="margin:0;flex:1;min-width:180px;">
+          <label class="form-label">提现金额</label>
+          <input class="form-input" id="withdrawAmount" type="number" placeholder="最多 ¥1,920" max="1920" />
+        </div>
+        <button class="btn btn-primary" id="withdrawBtn">💸 申请提现</button>
+      </div>
+      <div style="font-size:12px;color:var(--gray-400);margin-top:8px;">平台收取 20% 服务费，到账约 ¥—</div>
+    </div>
+    <div class="card">
+      <div class="section-title">收入记录</div>
+      <table class="data-table">
+        <thead><tr><th>时间</th><th>科目</th><th>学生</th><th>总额</th><th>平台费(20%)</th><th>实收</th></tr></thead>
+        <tbody>
+          <tr><td>01-14</td><td>数学</td><td>王同学</td><td>¥120</td><td>¥24</td><td>¥96</td></tr>
+          <tr><td>01-12</td><td>物理</td><td>李同学</td><td>¥135</td><td>¥27</td><td>¥108</td></tr>
+          <tr><td>01-10</td><td>数学</td><td>张同学</td><td>¥120</td><td>¥24</td><td>¥96</td></tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function requestWithdrawal() {
+  const amt = document.getElementById('withdrawAmount')?.value;
+  if (!amt || amt <= 0) { showToast('请输入提现金额', '', 'warning'); return; }
+  showToast('✅ 提现申请已提交', '管理端将在1-2个工作日内处理', 'success');
+}
+
+function renderTrialRequests() {
+  return `
+    <div class="page-header"><div class="page-title">🔔 旁听申请</div></div>
+    <div class="card">
+      <table class="data-table">
+        <thead><tr><th>申请人</th><th>课程时间</th><th>科目</th><th>申请时间</th><th>操作</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>王女士（家长）</td>
+            <td>周六 14:00</td>
+            <td>数学</td>
+            <td>2025-01-15</td>
+            <td>
+              <button class="btn btn-success btn-sm" onclick="showToast('已同意旁听','申请人将收到通知','success')">✅ 同意</button>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('已拒绝申请','','')">拒绝</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+// ===========================
+// ADMIN PORTAL RENDERS
+// ===========================
+function renderAdminDashboard() {
+  return `
+    <div class="page-header"><div class="page-title">📊 数据总览</div></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-card-icon">👨‍🎓</div><div class="stat-card-value">1,284</div><div class="stat-card-label">注册导师</div></div>
+      <div class="stat-card"><div class="stat-card-icon">👨‍👩‍👧</div><div class="stat-card-value">3,720</div><div class="stat-card-label">注册家长</div></div>
+      <div class="stat-card"><div class="stat-card-icon">📋</div><div class="stat-card-value">8,940</div><div class="stat-card-label">总订单数</div></div>
+      <div class="stat-card"><div class="stat-card-icon">💰</div><div class="stat-card-value">¥127,840</div><div class="stat-card-label">平台总佣金</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div class="card"><div class="section-title">📋 待处理事项</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--warning-light);border-radius:8px;cursor:pointer;" onclick="showSection('profileReview')">
+            <span style="font-size:14px;font-weight:600;color:#92400E;">🔍 待审核资料</span>
+            <span class="badge badge-yellow">7 条</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--primary-pale);border-radius:8px;cursor:pointer;" onclick="showSection('withdrawals')">
+            <span style="font-size:14px;font-weight:600;color:var(--primary);">💸 待审提现</span>
+            <span class="badge badge-blue">3 条</span>
+          </div>
+        </div>
+      </div>
+      <div class="card"><div class="section-title">📈 本月数据</div>
+        <div class="tutor-stats" style="flex-direction:column;gap:8px;">
+          <div class="tutor-stat" style="justify-content:space-between;">新增订单<strong>312</strong></div>
+          <div class="tutor-stat" style="justify-content:space-between;">新增用户<strong>84</strong></div>
+          <div class="tutor-stat" style="justify-content:space-between;">本月佣金<strong>¥12,480</strong></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderOrderMonitor() {
+  return `
+    <div class="page-header"><div class="page-title">📋 订单监控</div></div>
+    <div class="card">
+      <table class="data-table">
+        <thead><tr><th>订单号</th><th>家长</th><th>导师</th><th>科目</th><th>金额</th><th>状态</th><th>类型</th></tr></thead>
+        <tbody>
+          <tr><td>#10045</td><td>王女士</td><td>陈思远</td><td>数学</td><td>¥120</td><td><span class="badge badge-green">进行中</span></td><td><span class="badge badge-blue">短期</span></td></tr>
+          <tr><td>#10044</td><td>李先生</td><td>林晓雨</td><td>物理</td><td>¥135</td><td><span class="badge badge-green">进行中</span></td><td><span class="badge badge-gray">长期</span></td></tr>
+          <tr><td>#10043</td><td>张女士</td><td>赵婷婷</td><td>英语</td><td>¥110</td><td><span class="badge badge-yellow">协商中</span></td><td><span class="badge badge-gray">长期</span></td></tr>
+          <tr><td>#10042</td><td>刘先生</td><td>吴雅文</td><td>数学</td><td>¥115</td><td><span class="badge badge-red">已完成</span></td><td><span class="badge badge-blue">短期</span></td></tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function renderProfileReview() {
+  return `
+    <div class="page-header"><div class="page-title">🔍 资料审核</div></div>
+    <div class="card">
+      <table class="data-table">
+        <thead><tr><th>姓名</th><th>学校</th><th>专业</th><th>提交时间</th><th>操作</th></tr></thead>
+        <tbody>
+          ${['刘浩然/浙江大学/生物工程','赵明/中国人民大学/经济学','孙悦/同济大学/建筑学'].map((row,i) => {
+            const [name,school,major] = row.split('/');
+            return `<tr>
+              <td>${name}</td><td>${school}</td><td>${major}</td><td>2025-01-${14-i}</td>
+              <td>
+                <button class="btn btn-success btn-sm" onclick="showToast('已通过审核','已为该导师添加认证徽章','success')">✅ 通过</button>
+                <button class="btn btn-ghost btn-sm" onclick="showToast('已拒绝','','')">拒绝</button>
+              </td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function renderWithdrawals() {
+  return `
+    <div class="page-header"><div class="page-title">💸 提现审批</div></div>
+    <div class="card">
+      <table class="data-table">
+        <thead><tr><th>导师</th><th>申请金额</th><th>实际到账</th><th>平台收取(20%)</th><th>申请时间</th><th>操作</th></tr></thead>
+        <tbody>
+          <tr><td>陈思远</td><td>¥500</td><td>¥400</td><td>¥100</td><td>2025-01-15</td>
+            <td><button class="btn btn-success btn-sm" onclick="showToast('已通过提现','¥400 将转入导师账户','success')">✅ 批准</button></td></tr>
+          <tr><td>林晓雨</td><td>¥800</td><td>¥640</td><td>¥160</td><td>2025-01-14</td>
+            <td><button class="btn btn-success btn-sm" onclick="showToast('已通过提现','¥640 将转入导师账户','success')">✅ 批准</button></td></tr>
+          <tr><td>王子豪</td><td>¥300</td><td>¥240</td><td>¥60</td><td>2025-01-13</td>
+            <td><button class="btn btn-success btn-sm" onclick="showToast('已通过提现','¥240 将转入导师账户','success')">✅ 批准</button></td></tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function renderTransactions() {
+  return `
+    <div class="page-header"><div class="page-title">💰 交易记录</div></div>
+    <div class="card">
+      <table class="data-table">
+        <thead><tr><th>时间</th><th>家长</th><th>导师</th><th>金额</th><th>佣金(20%)</th><th>类型</th></tr></thead>
+        <tbody>
+          ${[
+            ['01-15','王女士','陈思远','¥120','¥24','课时费'],
+            ['01-15','李先生','林晓雨','¥135','¥27','课时费'],
+            ['01-14','张女士','赵婷婷','¥110','¥22','课时费'],
+            ['01-14','刘先生','吴雅文','¥115','¥23','课时费'],
+          ].map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td style="color:var(--success);font-weight:600;">${r[4]}</td><td><span class="badge badge-blue">${r[5]}</span></td></tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function renderCommission() {
+  return `
+    <div class="page-header"><div class="page-title">📈 平台佣金</div></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-card-icon">💰</div><div class="stat-card-value">¥12,480</div><div class="stat-card-label">本月佣金</div></div>
+      <div class="stat-card"><div class="stat-card-icon">📊</div><div class="stat-card-value">20%</div><div class="stat-card-label">佣金比率</div></div>
+      <div class="stat-card"><div class="stat-card-icon">📈</div><div class="stat-card-value">¥127,840</div><div class="stat-card-label">累计总佣金</div></div>
+    </div>`;
+}
+
+// ===========================
+// LIVESTREAM
+// ===========================
+function startLivestream() {
+  isObserverMode = false;
+  document.getElementById('liveTitle').textContent = '直播授课 - 数学辅导';
+  document.getElementById('cameraText').textContent = '摄像头已开启';
+  document.getElementById('micStatus').classList.remove('hidden');
+  document.getElementById('observerBanner').classList.add('hidden');
+  document.getElementById('endLiveBtn').textContent = '⏹ 结束授课';
+  document.getElementById('endLiveBtn').onclick = endLivestream;
+  document.getElementById('muteBtn').classList.remove('hidden');
+
+  const pl = document.getElementById('participantsList');
+  pl.innerHTML = `
+    <div class="participant-item">
+      <div class="participant-avatar">师</div>
+      <div><div class="participant-name">陈思远（您）</div><div class="participant-role">🎓 主讲教师</div></div>
+    </div>
+    <div class="participant-item">
+      <div class="participant-avatar">生</div>
+      <div><div class="participant-name">王同学</div><div class="participant-role">📚 学生</div></div>
+    </div>
+    <div class="participant-item">
+      <div class="participant-avatar observer">观</div>
+      <div><div class="participant-name">王女士</div><div class="participant-role">👁️ 旁听者</div><div class="observer-muted">🔇 已静音</div></div>
+    </div>`;
+
+  startRecording();
+  startTimer();
+  document.getElementById('livestreamPage').classList.add('show');
+}
+
+function enterObserverMode() {
+  closeModal('observerModal');
+  isObserverMode = true;
+  document.getElementById('liveTitle').textContent = '旁听课程 - 数学辅导（陈思远导师）';
+  document.getElementById('cameraText').textContent = '旁听模式 — 无法发言';
+  document.getElementById('micStatus').classList.add('hidden');
+  document.getElementById('observerBanner').classList.remove('hidden');
+  document.getElementById('endLiveBtn').textContent = '← 退出旁听';
+  document.getElementById('endLiveBtn').onclick = exitObserverMode;
+  document.getElementById('muteBtn').classList.add('hidden');
+
+  const pl = document.getElementById('participantsList');
+  pl.innerHTML = `
+    <div class="participant-item">
+      <div class="participant-avatar">师</div>
+      <div><div class="participant-name">陈思远</div><div class="participant-role">🎓 主讲教师</div></div>
+    </div>
+    <div class="participant-item">
+      <div class="participant-avatar">生</div>
+      <div><div class="participant-name">王同学</div><div class="participant-role">📚 学生</div></div>
+    </div>
+    <div class="participant-item" style="background:rgba(99,102,241,0.15)">
+      <div class="participant-avatar observer">您</div>
+      <div><div class="participant-name">您（旁听者）</div><div class="observer-muted">🔇 无法发言</div></div>
+    </div>`;
+
+  startTimer();
+  document.getElementById('livestreamPage').classList.add('show');
+}
+
+function exitObserverMode() {
+  stopTimer();
+  document.getElementById('livestreamPage').classList.remove('show');
+}
+
+let isMuted = false;
+function toggleMute() {
+  isMuted = !isMuted;
+  document.getElementById('muteBtn').textContent = isMuted ? '🔇 已静音' : '🎙️ 麦克风';
+}
+
+function toggleCamera() {}
+
+async function startRecording() {
+  try {
+    audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    recordedChunks = [];
+    mediaRecorder = new MediaRecorder(audioStream);
+    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+    mediaRecorder.start(1000);
+    isRecording = true;
+  } catch (e) {
+    isRecording = false;
+  }
+}
+
+function stopRecording() {
+  return new Promise(resolve => {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.onstop = resolve;
+      mediaRecorder.stop();
+      audioStream?.getTracks().forEach(t => t.stop());
+    } else {
+      resolve();
     }
+  });
+}
 
-    function switchAdminSub(s) {
-        document.querySelectorAll('.adm-sub').forEach(el => el.classList.add('hidden'));
-        document.getElementById('adm-' + s).classList.remove('hidden');
-        document.querySelectorAll('.admin-menu-item').forEach(i => i.classList.remove('active'));
-        event.target.classList.add('active');
-    }
+function startTimer() {
+  liveSeconds = 0;
+  liveTimerInterval = setInterval(() => {
+    liveSeconds++;
+    const h = String(Math.floor(liveSeconds/3600)).padStart(2,'0');
+    const m = String(Math.floor((liveSeconds%3600)/60)).padStart(2,'0');
+    const s = String(liveSeconds%60).padStart(2,'0');
+    document.getElementById('liveTimer').textContent = `${h}:${m}:${s}`;
+  }, 1000);
+}
 
-    // --- 逻辑处理 ---
-    function parentPublish() {
-        const sub = document.getElementById('p-req-subject').value;
-        const price = document.getElementById('p-req-price').value;
-        if(!sub || !price) return alert("请填写完整");
-        state.allOrders.unshift({ id: "REQ-"+Date.now().toString().slice(-4), type:"公共需求", subject:sub, price:parseFloat(price), status:"待抢单", tutor:"等待中"});
-        render();
-    }
+function stopTimer() {
+  clearInterval(liveTimerInterval);
+  liveTimerInterval = null;
+}
 
-    function parentBook(tname, tschool, sub, price) {
-        state.allOrders.unshift({ id: "DIR-"+Date.now().toString().slice(-4), type:"直接约课", subject:sub, price:price, status:"待学生确认", tutor:tname, school:tschool});
-        alert(`已预约 ${tschool} 的 ${tname}`);
-        render();
-    }
+async function endLivestream() {
+  stopTimer();
+  await stopRecording();
+  document.getElementById('livestreamPage').classList.remove('show');
 
-    function studentSubmitAudit() {
-        const name = document.getElementById('stu-name').value;
-        const school = document.getElementById('stu-school').value;
-        const sub = document.getElementById('stu-subject').value;
-        const rate = document.getElementById('stu-rate').value;
-        if(!name || !school) return alert("资料不全");
-        state.auditQueue.push({ id: Date.now(), name, school, subject:sub, price:parseInt(rate)});
-        document.getElementById('audit-status').innerText = "审核中...";
-        render();
-    }
+  const h = Math.floor(liveSeconds/3600);
+  const m = Math.floor((liveSeconds%3600)/60);
+  const s = liveSeconds%60;
+  const dur = h > 0 ? `${h}小时${m}分钟` : m > 0 ? `${m}分${s}秒` : `${s}秒`;
+  document.getElementById('recordingDuration').textContent = dur;
+  showModal('saveRecordingModal');
+}
 
-    function studentFinishTask(orderId) {
-        const order = state.allOrders.find(o => o.id === orderId);
-        if(order.status === '已完成') return;
-        order.status = "已完成";
-        const fee = order.price * 0.2;
-        state.balance += (order.price - fee);
-        state.taxTotal += fee;
-        render();
-    }
+function saveRecording() {
+  closeModal('saveRecordingModal');
+  if (recordedChunks.length > 0) {
+    const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `智学云辅_录音_${new Date().toISOString().slice(0,10)}.webm`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ 录音已保存', '文件已下载到本地', 'success');
+  } else {
+    // Fallback: create a dummy file if no actual recording
+    const dummy = new Blob(['RIFF'], { type: 'audio/wav' });
+    const url = URL.createObjectURL(dummy);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `智学云辅_录音_${new Date().toISOString().slice(0,10)}.wav`;
+    a.click();
+    showToast('✅ 录音已保存', '文件已下载到本地', 'success');
+  }
+}
 
-    function studentRequestWithdraw() {
-        if(state.balance <= 0) return alert("余额不足");
-        state.withdrawRequests.push({ id:Date.now(), name:"申请人", amount:state.balance, time:new Date().toLocaleString() });
-        state.balance = 0;
-        render();
-        alert("提现申请已提交");
-    }
+function discardRecording() {
+  recordedChunks = [];
+  closeModal('saveRecordingModal');
+  showToast('录音已丢弃', '', '');
+}
 
-    function adminApproveAudit(id) {
-        const idx = state.auditQueue.findIndex(a => a.id === id);
-        const item = state.auditQueue.splice(idx, 1)[0];
-        state.tutors.unshift({ ...item, verified: true });
-        render();
-    }
+// ===========================
+// NEGOTIATION REPLY (Admin/Student)
+// ===========================
+function openNegotiationReply() {
+  document.getElementById('negReplyTitle').textContent = '📅 长期课表协商 — 与赵婷婷导师';
+  document.getElementById('negReplyContent').innerHTML = `
+    <div class="card" style="background:var(--primary-pale);border-color:var(--primary-light);margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:600;color:var(--primary);margin-bottom:4px;">导师最新方案（第3轮）</div>
+      <div style="font-size:14px;color:var(--gray-700);">建议：每周二、四 19:00–20:30，周日 14:00–15:30，共3节/周</div>
+      <div style="font-size:12px;color:var(--gray-400);margin-top:4px;">2025-01-11 16:30</div>
+    </div>
+    <div class="form-group"><label class="form-label">您的回复（如需调整，请说明）</label>
+    <textarea class="form-textarea" id="parentNegReply" placeholder="接受方案或提出调整建议…"></textarea></div>
+    <div style="font-size:12px;color:var(--gray-400);">剩余协商次数：7 次</div>`;
+  showModal('negotiationReplyModal');
+}
 
-    // --- 渲染引擎 ---
-    function render() {
-        document.getElementById('stu-balance-display').innerText = state.balance.toFixed(2);
+function acceptNegotiation() {
+  closeModal('negotiationReplyModal');
+  showToast('🎉 课表已确认！', '长期课表已安排好，请在"我的课程"查看', 'success');
+}
 
-        // 导师列表过滤渲染
-        const f = document.getElementById('tutor-filter').value.toLowerCase();
-        document.getElementById('parent-tutor-results').innerHTML = state.tutors.filter(t => t.verified && (t.school.includes(f) || t.subject.includes(f))).map(t => `
-            <div class="card">
-                <div style="display:flex; justify-content:space-between;"><b>${t.name}</b><span class="badge bg-blue">${t.school}</span></div>
-                <p style="font-size:13px; color:var(--text-sub); margin:10px 0;">科目: ${t.subject}</p>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="color:var(--primary); font-weight:800;">￥${t.price}/h</span>
-                    <button class="btn btn-primary btn-sm" onclick="parentBook('${t.name}','${t.school}','${t.subject}',${t.price})">约课</button>
-                </div>
-            </div>
-        `).join('');
+function submitNegotiationReply() {
+  closeModal('negotiationReplyModal');
+  showToast('📤 回复已发送', '等待导师确认', 'success');
+}
 
-        // 家长端订单
-        document.getElementById('parent-orders-list').innerHTML = state.allOrders.map(o => `
-            <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f1f5f9;">
-                <span><span class="badge">${o.type}</span> ${o.subject} (${o.tutor})</span>
-                <span class="badge ${o.status==='已完成'?'bg-success':'bg-warning'}">${o.status}</span>
-            </div>
-        `).join('') || "暂无订单记录";
+// ===========================
+// MODAL HELPERS
+// ===========================
+function showModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
-        // 学生端任务
-        document.getElementById('student-direct-bookings').innerHTML = state.allOrders.filter(o => o.type==='直接约课' && o.status !== '已完成').map(o => `
-            <div class="card flex-between" style="display:flex; justify-content:space-between; align-items:center;">
-                <div><b>家长直约</b><br><small>${o.subject} | ￥${o.price}</small></div>
-                <button class="btn btn-primary btn-sm" onclick="studentFinishTask('${o.id}')">完成</button>
-            </div>
-        `).join('') || "无待办日程";
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('show'); });
+});
 
-        document.getElementById('student-task-pool').innerHTML = state.allOrders.filter(o => o.type==='公共需求' && o.status === '待抢单').map(o => `
-            <div class="card flex-between" style="display:flex; justify-content:space-between; align-items:center;">
-                <div><b>${o.subject}</b><br><small>预算: ￥${o.price}</small></div>
-                <button class="btn btn-outline btn-sm" onclick="studentFinishTask('${o.id}')">抢单</button>
-            </div>
-        `).join('') || "大厅空空如也";
-
-        // 管理端
-        document.getElementById('adm-audit-list').innerHTML = state.auditQueue.map(a => `
-            <div class="card flex-between" style="display:flex; justify-content:space-between; align-items:center;">
-                <div><b>${a.name}</b> (${a.school})</div>
-                <button class="btn btn-primary btn-sm" onclick="adminApproveAudit(${a.id})">批准</button>
-            </div>
-        `).join('') || "无申请";
-
-        document.getElementById('adm-withdraw-list').innerHTML = state.withdrawRequests.map(r => `
-            <div class="card flex-between" style="display:flex; justify-content:space-between; align-items:center;">
-                <div>申请 ￥${r.amount.toFixed(2)}</div>
-                <button class="btn btn-primary btn-sm" onclick="state.withdrawRequests=state.withdrawRequests.filter(x=>x.id!==${r.id});render();">打款</button>
-            </div>
-        `).join('') || "无申请";
-
-        document.getElementById('adm-table-orders-body').innerHTML = state.allOrders.map(o => `
-            <tr><td>${o.id}</td><td>${o.type}</td><td>${o.subject}</td><td>${o.status}</td><td><button onclick="state.allOrders=state.allOrders.filter(x=>x.id!=='${o.id}');render();">下架</button></td></tr>
-        `).join('');
-
-        document.getElementById('adm-finance-summary').innerHTML = `<h3>累计抽成: ￥${state.taxTotal.toFixed(2)} | 活跃订单: ${state.allOrders.length}</h3>`;
-    }
-
-    render();
+// ===========================
+// TOAST
+// ===========================
+let toastTimeout;
+function showToast(msg, sub, type) {
+  const el = document.getElementById('toastEl');
+  document.getElementById('toastMsg').textContent = msg;
+  document.getElementById('toastSub').textContent = sub;
+  el.className = 'notification-toast show ' + (type || '');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => el.classList.remove('show'), 3500);
+}
 </script>
 </body>
 </html>
